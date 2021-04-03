@@ -1,10 +1,10 @@
 const express = require('express');
 const path = require('path');
-const fs = require('fs');
+// const fs = require('fs');
 
 
-const data = fs.readFileSync('db.json');
-const notes = JSON.parse(data);
+// const data = fs.readFileSync('db.json');
+// const notes = JSON.parse(data);
 
 
 // Sets up the Express App
