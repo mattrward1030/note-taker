@@ -17,13 +17,12 @@ app.use(express.json());
 
 
 
+
 // route that sends user to the notes.hmtl page
 app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, '/public/notes.html')));
-// route that sends user to the index.html page
-app.get('*', (req, res) => res.sendFile(path.join(__dirname, '/public/index.html')));
 
 // setting up api get requests
-app.route('/api/notes')
+app.route("/api/notes")
 
     .get(function (req, res) {
         res.json(notesDatabase);
@@ -61,7 +60,8 @@ app.route('/api/notes')
     });
 
 
-
+// route that sends user to the index.html page
+app.get('*', (req, res) => res.sendFile(path.join(__dirname, '/public/index.html')));
 
 app.listen(PORT, function () {
     console.log("App listening on PORT " + PORT);
