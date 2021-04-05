@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
-const notesDatabase = require('./db/db');
+const notesDatabase = require('./db/db.json');
 
 
 // Sets up the Express App
@@ -17,14 +17,6 @@ app.use(express.json());
 
 
 
-
-
-
-
-
-
-
-
 // route that sends user to the notes.hmtl page
 app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, '/public/notes.html')));
 // route that sends user to the index.html page
@@ -36,6 +28,37 @@ app.route('/api/notes')
     .get(function (req, res) {
         res.json(notesDatabase);
     })
+
+
+    .post(function (req, res) {
+        let jsonPath = path.join(__dirname, "/db/db.json");
+        let newNote = req.body;
+        let noteId = 99;
+
+        for (let i = 0; i < notesDatabase.length; i++) {
+            let userNote = notesDatabase[i];
+
+            if (userNote.id > noteId) {
+                noteId = userNote.id;
+            }
+        }
+
+        newNote.id = noteId + 1;
+
+        notesDatabase.push(newNote)
+
+        fs.writeFile(jsonPath, JSON.stringify(notesDatabase), function (err) {
+
+            if (err) {
+                return console.log(err);
+
+            }
+
+            console.log("Note was saved")
+        });
+        res.json(newNote)
+
+    });
 
 
 
