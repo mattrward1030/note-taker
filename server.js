@@ -59,6 +59,29 @@ app.route("/api/notes")
 
     });
 
+app.delete("/api/notes/:id", function (req, res) {
+    let jsonPath = path.join(__dirname, "/db/db.json");
+
+    for (let i = 0; i < notesDatabase.length; i++) {
+
+        if (notesDatabase[i].id == req.params.id) {
+
+            notesDatabase.splice(i, 1);
+            break;
+        }
+    }
+    // re-writing to db.jon file
+    fs.writeFileSync(jsonPath, JSON.stringify(notesDatabase), function (err) {
+
+        if (err) {
+            return console.log(err);
+        }
+
+        console.log("NOTE DELETED!");
+
+    });
+    res.json(notesDatabase);
+});
 
 // route that sends user to the index.html page
 app.get('*', (req, res) => res.sendFile(path.join(__dirname, '/public/index.html')));
